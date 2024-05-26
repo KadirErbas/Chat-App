@@ -10,27 +10,35 @@ export default function Login(){
     const [confirm, setConfirm] = useState(null);
     const navigation = useNavigation();
 
-    const signInWithPhoneNumber = async() => {
+    const signInWithPhoneNumber = async () => {
         try {
-            // Validate phone number format
-            const phoneRegex = /^\+\d{1,4} \d{1,15}$/;
-            if (!phoneRegex.test(phoneNumber)){
-                alert("Invalid phone number format. Please enter a valid number.");
+            // Telefon formatı
+            const phoneRegex = /^\+\d{1,9} \d{1,15}$/;
+            if (!phoneRegex.test(phoneNumber)) {
+                alert("Geçersiz telefon formatı. Lütfen geçerli bir numara giriniz.");
                 return;
             }
             const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
             setConfirm(confirmation);
-        } catch (error){
-            alert("Error sending code. Please try again later.");
-            console.log("Error sending code: ", error);
-        } 
+        } catch (error) {
+            alert("kod gönderme hatası. Lütfen tekrar deneyiniz.");
+            console.log("Kod gönderme hatası: ", error);
+        }
     };
+    
+
 
     const confirmCode = async () => {
         try{
+
+            if (!confirm) {
+                alert("Onay kodu bekleniyor. Lütfen önce telefon numaranızı onaylayın.");
+                return;
+            }
+    
             // Validate code format
             if (!code || code.length !== 6){
-                alert("Invalid code. Please enter a 6-digid code.");
+                alert("Geçersiz kod. Lütfen 6 haneli kod giriniz.");
                 return;
             }
 
@@ -39,7 +47,7 @@ export default function Login(){
 
         // Check if the user is new or existing
         const userDocument = await firestore()
-        .collection
+        .collection("users")
         .doc(user.uid)
         .get();
 
@@ -51,8 +59,8 @@ export default function Login(){
             navigation.navigate("Detail", { uid:user.uid});
         }
     } catch (error){
-        alert("Invalid code. Please enter the correct code.");
-        console.log("Invalid code.", error);
+        alert("Geçersiz kod. Lütfen size gönderilen kodu giriniz.");
+        console.log("Geçersiz kod.", error);
     }
 };
     return (
@@ -98,7 +106,7 @@ export default function Login(){
                 textAlign:"center",
         }}
         >
-            Bug Ninza Chat app
+            Fonksiyonel Programlama
         </Text>
 
         {/* Logo */}
@@ -106,17 +114,15 @@ export default function Login(){
             style={{
                 alignItems:"center",
                 justifyContent:"center",
-                marginBottom:"30",
+                marginBottom:30,
             }} 
         >
 
-        <Image>
-            source={require("../../../assets/logo.png")}
-            style{{width:150, height:150, borderRadius:50}}
-        </Image> 
-
+        <Image
+            source={require("../../../assets/ChatApp.png")}
+            style={{width:150, height:150, borderRadius:50}}        
+        />
         </View>
-
         {!confirm ? (
             <>
             <Text 
@@ -126,7 +132,7 @@ export default function Login(){
                     color:"#808080",
                 }}
             > 
-            Enter your phone number with country code:
+            Telefon numaranı gir:
             </Text>
             <TextInput 
                 style={{
@@ -138,7 +144,7 @@ export default function Login(){
                     paddingHorizontal:10,
                     borderRadius: 10,
                 }}
-                placeholder="e.g., +1 650-555-3434"
+                placeholder="+90 5521230101"
                 value={phoneNumber}
                 onChangeText={setPhoneNumber}
                 keyboardType="phone-pad"
@@ -155,9 +161,8 @@ export default function Login(){
                 >
                     <Text 
                         style={{color:"white", fontSize:22, fontWeight: "bold"}}
-
                     >
-                    Verfiy Phone Number
+                    Numaranı Onayla
                     </Text>
 
                 </TouchableOpacity>
@@ -168,21 +173,23 @@ export default function Login(){
                 marginBottom:20,
                 fontSize:18,
                 color:"#808080",
-            }} >
+            }} 
+            >
 
-            Enter the code sent to your phone:
+            Telefona gönderilen kodu giriniz:
             </Text>
 
-            <TextInput style={{
-                height:50,
-                width: "100%",
-                borderColor: "black",
-                borderWidth:1,
-                marginBottom: 30,
-                paddingHorizontal:10,
-                borderRadius:10,
+            <TextInput 
+                style={{
+                    height:50,
+                    width: "100%",
+                    borderColor: "black",
+                    borderWidth:1,
+                    marginBottom: 30,
+                    paddingHorizontal:10,
+                    borderRadius:10,
             }}
-            placeholder="Enter code"
+            placeholder="Kodu gir"
             value={code}
             onChangeText={setCode}
             keyboardType="phone-pad"
@@ -191,7 +198,7 @@ export default function Login(){
             <TouchableOpacity
                 onPress={confirmCode}
                 style= {{
-                    backgroundColor: "#007BFF",
+                    backgroundColor: "#51AECD",
                     padding:10,
                     borderRadius:5,
                     marginBottom:20,
@@ -205,10 +212,10 @@ export default function Login(){
                 fontWeight:"bold"
                 }}
             >
-                Confirm Code
+                Kodu Onayla
             </Text>
             </TouchableOpacity>
-    </>
+        </>
     )}
 
         </View>

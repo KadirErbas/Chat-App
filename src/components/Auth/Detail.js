@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
     View,
     Text,
@@ -10,22 +10,27 @@ import firestore from "@react-native-firebase/firestore";
 import DatePicker from "react-native-date-picker";
 import { Picker } from "@react-native-picker/picker";
 
-export default function Detail({ route, navigation}){
-    const {uid} = route.params;
-    const {name, setName} = useState("");
-    const {dob, setDob} = useState(new Date());
-    const {gender, setGender} = useState("Male");
+export default function Detail({ route, navigation }) {
+    // Route params'dan kullanıcının ID'sini al
+    const { uid } = route.params;
 
+    // Kullanıcının adını, doğum tarihini ve cinsiyetini tutmak için state'ler oluştur
+    const [name, setName] = useState("");
+    const [dob, setDob] = useState(new Date());
+    const [gender, setGender] = useState("Male");
+
+    // Kullanıcının detaylarını kaydetmek için fonksiyon
     const saveDetails = async () => {
         try {
+            // Firestore üzerinde kullanıcının detaylarını güncelle
             await firestore()
                 .collection("users")
                 .doc(uid)
                 .set({
-                    name,
-                    dob: dob.toISOString().slice(0,10),
-                    gender,
-                    displayName:name,
+                    name, 
+                    dob: dob.toISOString().slice(0, 10), // Doğum tarihi
+                    gender, // Cinsiyet
+                    displayName: name, // Görünen adı
                 });
             navigation.navigate("Dashboard");
         } catch (error) {
@@ -73,12 +78,13 @@ export default function Detail({ route, navigation}){
                         marginTop: 150,
                     }}
                 >
-                    Enter your details:
+                    Kullanıcı bilgilerini gir:
                 </Text>
                 <TextInput
                     style= {{
                         height:50,
                         width: "100%",
+                        borderColor: "black",
                         borderWidth: 1,
                         marginBottom: 30,
                         paddingHorizontal: 10,
@@ -91,16 +97,17 @@ export default function Detail({ route, navigation}){
                 <DatePicker
                     style={{
                         height: 80,
-                        width: Dimensions.get("window".width) - 40,
+                        width: Dimensions.get("window").width -40,
                         marginBottom: 30,
                     }}
                     date= {dob}
                     onDateChange={setDob}
                     mode="date"
+                    
                 />
                 <Picker
                     style={{
-                        height:50,
+                        height: 50,
                         width: "100%",
                         marginBottom: 30,
                     }}
@@ -118,7 +125,7 @@ export default function Detail({ route, navigation}){
                         padding: 10,
                         borderRadius: 5,
                         marginBottom: 20,
-                        alignItems: "center"
+                        alignItems: "center",
                     }}
                 >
                     <Text style={{ color: "white", fontSize: 22, fontWeight: "bold"}}>
@@ -128,5 +135,4 @@ export default function Detail({ route, navigation}){
             </View>
         </View>
     );
-
 }

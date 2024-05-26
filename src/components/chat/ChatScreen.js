@@ -13,15 +13,13 @@ import { LinearGradient } from "expo-linear-gradient";
 export default function ChatScreen() {
     const [messages, setMessages] = useState([]);
     const {userId, userName } = useRoute().params;
-    const currentUser = auth().currentUser; // Mevcut kullanıcı
+    const currentUser = auth().currentUser;
     const navigation = useNavigation();
 
     useEffect(()=> {
-        // Chat ID'si oluşturuluyor ve chat referansı alınıyor
         const chatId = [currentUser.uid, userId].sort().join("_");
         const chatReference = firestore().collection("chats").doc(chatId);
 
-        // Firestore'dan gelen mesajlar alınıyor
         const unsubscibe = chatReference.onSnapshot((snapshot) => {
             if(snapshot.exists) {
                 const chatData = snapshot.data();
@@ -42,7 +40,6 @@ export default function ChatScreen() {
         }));
 
         try {
-            // Firestore'a mesajlar ekleniyor
             await chatReference.set(
                 {
                     messages: GiftedChat.append(messages, formattedMessages),
@@ -79,7 +76,7 @@ export default function ChatScreen() {
     };
 
     const renderChatFooter = () => {
-        
+        // Adjust the margin value as needed
         return <View style={{ height: 20}} />;
     };
 
