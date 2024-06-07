@@ -51,7 +51,7 @@ export default function Dashboard() {
 
   const navigateToChat = (userId, userName) => {
     // Seçilen kullanıcının ID'si ve adı ile Sohbet ekranına git
-    navigation.navigate("ChatScreen", {
+    navigation.navigate("Mesajlaşma Ekranı", {
       userId,
       userName,
     });
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     fontSize: 24,
-    color: "#43A047",
+    color: "#2BC6D1",
     fontWeight: "bold",
   },
   userList: {

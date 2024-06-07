@@ -112,7 +112,7 @@ export default function ChatScreen() {
             renderDay={() => null}
             renderBubble = {renderBubble}
             renderChatFooter= {renderChatFooter}
-            placeholder="Type a message..."
+            placeholder="Mesaj yaz..."
             textInputStyle= {{ color: "white" }}
             renderUsernameOnMessage
             containerStyle={{

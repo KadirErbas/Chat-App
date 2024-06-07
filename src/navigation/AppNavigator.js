@@ -44,7 +44,7 @@ const AppNavigator = () => {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name="ChatScreen"
+                name="Mesajlaşma Ekranı"
                 component={ChatScreen}
             />
         </Stack.Navigator>

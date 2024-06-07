@@ -21,8 +21,12 @@ export default function Login(){
             const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
             setConfirm(confirmation);
         } catch (error) {
-            alert("kod gönderme hatası. Lütfen tekrar deneyiniz.");
-            console.log("Kod gönderme hatası: ", error);
+            if (error.code === 'auth/too-many-requests') {
+                Alert.alert('Çok fazla istek gönderildi. Lütfen biraz bekleyin ve tekrar deneyin.');
+              } else {
+                Alert.alert('Kod gönderme hatası. Lütfen tekrar deneyiniz.');
+                console.log('Kod gönderme hatası: ', error);
+              }
         }
     };
     
@@ -32,13 +36,13 @@ export default function Login(){
         try{
 
             if (!confirm) {
-                alert("Onay kodu bekleniyor. Lütfen önce telefon numaranızı onaylayın.");
+                Alert.alert("Onay kodu bekleniyor. Lütfen önce telefon numaranızı onaylayın.");
                 return;
             }
     
             // Validate code format
             if (!code || code.length !== 6){
-                alert("Geçersiz kod. Lütfen 6 haneli kod giriniz.");
+                Alert.alert("Geçersiz kod. Lütfen 6 haneli kod giriniz.");
                 return;
             }
 
@@ -152,7 +156,7 @@ export default function Login(){
                 <TouchableOpacity 
                     onPress={signInWithPhoneNumber}
                     style={{
-                        backgroundColor: "#007BFF",
+                        backgroundColor: "#51AECD",
                         padding:10,
                         borderRadius:5,
                         marginBottom:20,

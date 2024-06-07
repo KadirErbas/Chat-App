@@ -90,7 +90,7 @@ export default function Detail({ route, navigation }) {
                         paddingHorizontal: 10,
                         borderRadius: 10,
                     }}
-                    placeholder="Name"
+                    placeholder="Adınız"
                     value={name}
                     onChangeText={setName}
                 />
@@ -114,14 +114,14 @@ export default function Detail({ route, navigation }) {
                     selectedValue={gender}
                     onValueChange={setGender}
                 >
-                    <Picker.Item label="Male" value="Male" />
-                    <Picker.Item label="Female" value="Female" />
-                    <Picker.Item label="Other" value="Other" />
+                    <Picker.Item label="Erkek" value="Male" />
+                    <Picker.Item label="Kadın" value="Female" />
+                    <Picker.Item label="Diğer" value="Other" />
                 </Picker>
                 <TouchableOpacity
                     onPress={saveDetails}
                     style={{
-                        backgroundColor: "#007BFF",
+                        backgroundColor: "#51AECD",
                         padding: 10,
                         borderRadius: 5,
                         marginBottom: 20,
@@ -129,7 +129,7 @@ export default function Detail({ route, navigation }) {
                     }}
                 >
                     <Text style={{ color: "white", fontSize: 22, fontWeight: "bold"}}>
-                        Save Details
+                        Bilgilerimi Kaydet
                     </Text>
                 </TouchableOpacity>
             </View>
